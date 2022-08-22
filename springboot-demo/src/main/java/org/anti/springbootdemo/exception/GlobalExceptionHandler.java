@@ -25,19 +25,19 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<String> exception(Exception e) {
         log.error("全局异常信息 ex={}", e.getMessage(), e);
-        return Result.create(ReturnCode.UNKNOWN_ERROR.getCode(),e.getMessage());
+        return Result.create(ReturnCode.UNKNOWN_ERROR.getCode(), e.getMessage());
     }
 
-    @ExceptionHandler({IllegalArgumentException.class,IllegalStateException.class})
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<String> exception(IllegalArgumentException e) {
-        return Result.create(ReturnCode.ILLEGAL_ARGUMENT.getCode(),e.getMessage());
+        return Result.create(ReturnCode.ILLEGAL_ARGUMENT.getCode(), e.getMessage());
     }
 
     @ExceptionHandler(BaseException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<String> exception(BaseException e) {
-        return Result.create(e.getErrorCode(),e.getMessage());
+        return Result.create(e.getErrorCode(), e.getMessage());
     }
 
     @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
@@ -67,8 +67,8 @@ public class GlobalExceptionHandler {
             );
         }
 
-        log.error("参数校验异常:{}",resp.getMessage());
-        return new ResponseEntity<>(resp,HttpStatus.BAD_REQUEST);
+        log.error("参数校验异常:{}", resp.getMsg());
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 
 }

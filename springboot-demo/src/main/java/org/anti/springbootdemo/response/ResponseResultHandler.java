@@ -27,8 +27,8 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = sra.getRequest();
-        ResponseResult responseResult = (ResponseResult) request.getAttribute(RESPONSE_RESULT_ANN);
-        return responseResult != null;
+        return request.getAttribute(RESPONSE_RESULT_ANN) != null;
+//        return returnType.getParameterType().isAssignableFrom(Result.class)  && returnType.hasMethodAnnotation(ResponseResult.class);
     }
 
     @SneakyThrows

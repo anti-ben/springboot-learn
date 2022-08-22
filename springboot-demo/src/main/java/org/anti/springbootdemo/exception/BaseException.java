@@ -6,7 +6,6 @@ import lombok.Setter;
 
 public abstract class BaseException extends RuntimeException{
     private static final long  serialVersionUID = 1L;
-
     @Getter
     @Setter
     private int errorCode;

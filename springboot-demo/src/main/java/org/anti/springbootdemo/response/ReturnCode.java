@@ -1,6 +1,9 @@
 package org.anti.springbootdemo.response;
 
-public enum ReturnCode {
+import lombok.Getter;
+
+@Getter
+public enum ReturnCode implements StatusCode{
 
     //10000开头为通用错误类型
     SUCCESS(10000,"操作成功"),
@@ -24,20 +27,12 @@ public enum ReturnCode {
     MQ_SEND_FAIL(30002, "库存异步消息失败"),
     RATELIMIT(30003, "活动太火爆，稍后再试");
 
-    private final Integer code;
-    private final String message;
+    private final int code;
+    private final String msg;
 
-    ReturnCode(Integer code, String message){
+    ReturnCode(int code, String msg){
         this.code = code;
-        this.message = message;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
+        this.msg = msg;
     }
 
 }

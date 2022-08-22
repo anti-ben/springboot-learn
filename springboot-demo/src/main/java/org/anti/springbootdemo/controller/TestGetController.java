@@ -9,8 +9,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-@RestController(value = "prettyTestController")
-@RequestMapping("/pretty")
+@RestController(value = "getTestController")
+@RequestMapping("/prettyget")
 @Validated
 public class TestGetController {
 

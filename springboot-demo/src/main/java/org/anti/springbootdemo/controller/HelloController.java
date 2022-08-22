@@ -19,12 +19,12 @@ public class HelloController {
 
     @GetMapping(value = "/returnString", produces = "application/json; charset=UTF-8")
     public String returnString() {
-        return "success";
+        return "returnString";
     }
 
     @GetMapping("/hello")
     public Result<User> hello() {
-        User user = new User(1, "demo", 12);
+        User user = new User();
         Assert.notNull(user, "用户不存在！");
         return Result.success(user);
     }
