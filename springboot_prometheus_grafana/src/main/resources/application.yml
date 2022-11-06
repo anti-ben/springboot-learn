@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: springboot-prometheus-grafana
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - health
+  metrics:
+    tags:
+      application: ${spring.application.name}
