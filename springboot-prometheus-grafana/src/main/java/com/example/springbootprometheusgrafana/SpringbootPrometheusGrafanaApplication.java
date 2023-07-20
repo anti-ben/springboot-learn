@@ -1,4 +1,4 @@
-package com.example.springboot_prometheus_grafana;
+package com.example.springbootprometheusgrafana;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

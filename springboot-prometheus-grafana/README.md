@@ -7,8 +7,7 @@ First, you need to change the ip to your ip in the **prometheus.yaml**.
 Then,
 
 ```bash
-mvn clean install
-mvn spring-boot:run
+./gradlew bootRun
 
 # check
 docker-compose config

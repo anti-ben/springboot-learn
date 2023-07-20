@@ -1,14 +1,28 @@
 spring:
   application:
     name: springboot-prometheus-grafana
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+server:
+  port: 8080
+  shutdown: graceful
 
 management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+    shutdown:
+      enabled: true
   endpoints:
     web:
       exposure:
         include:
+          - metrics
           - prometheus
           - health
+          - shutdown
   metrics:
     tags:
       application: ${spring.application.name}

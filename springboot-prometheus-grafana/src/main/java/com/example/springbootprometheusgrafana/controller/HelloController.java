@@ -1,4 +1,4 @@
-package com.example.springboot_prometheus_grafana.controller;
+package com.example.springbootprometheusgrafana.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

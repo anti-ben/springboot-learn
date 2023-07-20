@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: '{{DEPLOYMENT_NAME}}'
+  namespace: '{{K8S_NAMESPACE}}'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: '{{DEPLOYMENT_NAME}}'
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: '{{DEPLOYMENT_NAME}}'
+        version: v1
+        poddisruptionbudget-default: enabled
+      annotations:
+        prometheus:io/port: "8080"
+        prometheus.io/path: /actuator/prometheus  # 在流水线中赋值
+        prometheus.io/scrape: "true"              # 基于pod的服务发现
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: '{{APP_NAME}}'
+          image: '{{DOCKER_IMAGE}}'
+          imagePullPolicy: 'IfNotPresent'
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+          lifecycle:
+            preStop: # 结束回调钩子
+              exec:
+                command: [ "curl", "-XPOST", "127.0.0.1:8080/shutdown" ]
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            timeoutSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30      # 延迟加载时间
+            periodSeconds: 10            # 重试时间间隔
+            timeoutSeconds: 1            # 超时时间设置
+            successThreshold: 1          # 健康阈值
+            failureThreshold: 6          # 不健康阈值
+          resources:
+            limits:
+              cpu: 0.5
+              memory: 1Gi
+            requests:
+              cpu: 0.15
+              memory: 300Mi
+---
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2beta2
+metadata:
+  name: '{{APP_NAME}}'
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {APP_NAME}
+  minReplicas: {REPLICAS}
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50

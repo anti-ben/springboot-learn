@@ -1,4 +1,4 @@
-package com.example.springboot_prometheus_grafana;
+package com.example.springbootprometheusgrafana;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
